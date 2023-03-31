@@ -1,24 +1,25 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export const ContextValue = createContext();
 
-const Context = ({ children }) => {
+export const useInputContex = () => {
+  return useContext(ContextValue);
+};
+
+export const Context = ({ children }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  console.log('name', name);
   return (
     <ContextValue.Provider
       value={{
         nameValue: name,
         addName: setName,
         numberValue: number,
-        addNumder: setNumber,
+        addNumber: setNumber,
       }}
     >
       {children}
     </ContextValue.Provider>
   );
 };
-
-export default Context;

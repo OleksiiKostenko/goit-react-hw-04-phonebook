@@ -1,38 +1,33 @@
-import { createContext, useContext, useState } from 'react';
-
 import css from 'components/Form.module.css';
-import Context from './Context';
+import { useInputContex } from './Context';
 
-export const Form = () => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
-  console.log('number', number);
+export const Form = ({ onSubmit }) => {
+  const { nameValue, addName, numberValue, addNumber } = useInputContex();
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    this.props.onSubmit({
-      name: this.state.name,
-      number: this.state.number,
+    onSubmit({
+      name: nameValue,
+      number: numberValue,
     });
-    this.reset();
+    reset();
   };
 
-  // const reset = () => {
-  //   setName('');
-  //   setNumber('');
-  // };
+  const reset = () => {
+    addName('');
+    addNumber('');
+  };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit}>
+    <form className={css.form} autoComplete="off" onSubmit={handleSubmit}>
       <label className={css.label}>
         Name{' '}
         <input
           className={css.input}
           type="text"
           name="name"
-          value={name}
-          onChange={e => setName(e.target.value)}
+          value={nameValue}
+          onChange={e => addName(e.target.value)}
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
@@ -44,8 +39,8 @@ export const Form = () => {
           type="tel"
           className={css.input}
           name="number"
-          value={number}
-          onChange={e => setNumber(e.target.value)}
+          value={numberValue}
+          onChange={e => addNumber(e.target.value)}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
